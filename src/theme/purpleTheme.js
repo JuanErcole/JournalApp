@@ -7,7 +7,7 @@ export const purpleTheme = createTheme({
         primary: {
           main: '#262254'  
         },
-        seconday: {
+        secondary: {
             main: '#543884'  
         },
         error:{
@@ -17,4 +17,3 @@ export const purpleTheme = createTheme({
     },
         
 })
-
