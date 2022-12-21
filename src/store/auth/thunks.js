@@ -2,7 +2,7 @@
 // Si son sincronas las puedo hacer directamente con el reducer
 
 import { async } from "@firebase/util"
-import { loginWithEmailPassword, registerUserWithEmailPassword, singInWithGoogle } from "../../firebase/provider"
+import { loginWithEmailPassword, logoutFirebase, registerUserWithEmailPassword, singInWithGoogle } from "../../firebase/provider"
 import { chekingCredentials, login, logout } from "./authSlice"
 
 export const checkingAuthentication = ( email, password ) =>{
@@ -40,17 +40,26 @@ export const startCreatingUserWithEmailPassword = ({ email, password, displayNam
   }
 }
 
-export const startLoginWithEmailPassword = ({ email, password}) =>{
+export const startLoginWithEmailPassword = ({ email, password }) =>{
   return async( dispatch ) =>{
 
     dispatch(chekingCredentials());
     
-    const resp = await loginWithEmailPassword( {email, password} );
+    const result = await loginWithEmailPassword({ email, password });
 
-    // if ( !result.ok ) return dispatch( logout(result.errorMessage) );
+    if ( !result.ok ) return dispatch( logout(result) );
 
-    dispatch(login( resp   ))
+    dispatch(login( result   ))
 
+  }
+}
+
+export const startLogout =  ()=>{
+  return async( dispatch )=>{
+
+    await logoutFirebase();
+
+    dispatch( logout() );
   }
 }
 
